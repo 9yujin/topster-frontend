@@ -1,0 +1,120 @@
+@import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+
+body {
+  padding-top: 41px;
+  height: calc(100vh - 41px);
+  overflow: hidden;
+}
+
+/*헤더*/
+#header {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  /* width: 100% */
+  left: 0;
+  right: 0;
+  z-index: 1;
+  border-bottom: 1px solid #e6e6e6;
+  background-color: #fff;
+}
+#header .header-title {
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  z-index: 2;
+}
+
+#header .header-menu {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  font-size: 20px;
+}
+
+/*탑스터 영역*/
+
+.grid-wrapper {
+  height: calc(100vh - 340px);
+  overflow-y: auto;
+}
+.grid-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+.container {
+  width: 100%;
+  min-width: 300px;
+  max-width: 650px;
+  margin: 0 auto;
+}
+.inner-container {
+  position: relative;
+  margin: 0 15px;
+}
+
+#dragover {
+  z-index: 1000;
+  transform: scale(1.5);
+  background: rgba(240, 240, 240, 0.8);
+  box-shadow: 0px 0px 10px rgb(0, 0, 0, 40%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/*앨범검색*/
+#main .container {
+  position: fixed;
+  bottom: 20px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+#main .inner-container {
+  height: 260px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 10px rgb(0, 0, 0, 20%);
+  margin-top: 15px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.getAlbum {
+  width: 95%;
+  margin: 0 auto;
+}
+.search {
+  display: flex;
+  justify-content: center;
+  padding: 5px 15px;
+  height: 30px;
+}
+.searchResult {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  overflow-x: auto;
+}
+.art {
+  height: 70px;
+  width: 70px;
+}
+.art .inner {
+  box-shadow: 2px 2px 10px rgb(0, 0, 0, 40%);
+}
+
+/*옵션*/
+
+.pallete:nth-child(4) {
+  border: 1px solid lightgray;
+}
+
+button {
+  height: 30px;
+}
