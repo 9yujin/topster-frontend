@@ -45,7 +45,7 @@ function App() {
       <main id="main">
         <OptionProvider>
           <div class="grid-wrapper" ref={canvas}>
-            {state.fortytwo ? <Create42 /> : <CreateGrid dnd={dnd} />}
+            {state.fortytwo === true ? <Create42 dnd={dnd} /> : <CreateGrid dnd={dnd} />}
           </div>
           <div class="container">
             <div class="inner-container">

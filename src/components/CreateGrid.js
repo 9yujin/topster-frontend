@@ -18,10 +18,10 @@ const GridContainer = styled.div`
   /* border: ${(props) =>
     props.backgroundcolor !== "#ffffff" ? "0px" : props.containerpadding === 0 ? "0px" : "1px"}
     solid gray; */
-  @media (min-width: 650px) {
-    width: calc(620px - 2 * ${(props) => props.containerpadding}px);
+  @media (min-width: 619px) {
+    width: calc(589px - 2 * ${(props) => props.containerpadding}px);
     height: calc(
-      (620px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
+      (589px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
         (${(props) => props.rows})
     );
   }
@@ -35,29 +35,6 @@ const CreateGrid = ({ dnd }) => {
   const { state } = useContext(OptionContext);
   const { rows, cols, gap, backgroundcolor, containerpadding } = state;
   const { handleDragOver, handleDragLeave, handleDrop, handleDragEnter } = dnd;
-
-  /*   const GridContainer = styled.div`
-    grid-template-rows: repeat(${rows}, 1fr);
-    width: calc(100vw - 30px - 2 * ${containerpadding}px);
-    height: calc((100vw - 30px - 2 * ${containerpadding}px) / ${cols} * ${rows});
-    margin: 0 auto;
-    background-color: ${backgroundcolor};
-    display: grid;
-    margin-top: 15px;
-    grid-gap: ${gap}px;
-    padding: ${containerpadding}px;
-    border: ${(props) => (props.bg !== "#ffffff" ? "0px" : containerpadding === 0 ? "0px" : "1px")}
-      solid gray;
-    @media (min-width: 650px) {
-      width: calc(620px - 2 * ${containerpadding}px);
-      height: calc((620px - 2 * ${containerpadding}px) / ${cols} * ${rows});
-    }
-  `;
-  //얘를 밖으로 빼내야 create42랑 번갈아 보여줄수있는데,,, 저 state들 때문에 밖으로 못빼누,,,
-
-  const GridItem = styled.div`
-    background-color: ${(props) => (props.backgroundcolor === "#ffffff" ? "lightgray" : "white")};
-  `; */
 
   return (
     <GridContainer
