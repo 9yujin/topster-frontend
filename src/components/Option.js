@@ -49,6 +49,19 @@ const Option = () => {
     actions.setContainerPadding(parseInt(paddingvalue));
   }, [paddingvalue]);
 
+  const set42 = () => {
+    actions.setFortytwo((prev) => !prev);
+  };
+
+  const setDefault = () => {
+    actions.setBackgroundColor("#000000");
+    setPickColor("#000000");
+    actions.setGap(3);
+    setGapValue(3);
+    actions.setContainerPadding(25);
+    setPaddingValue(25);
+  };
+
   return (
     <div
       style={{ margin: "5px 15px", display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -99,7 +112,11 @@ const Option = () => {
       </div>
       <div>
         <input type="range" min="0" max="10" value={gapvalue} onChange={onChangeGap} />
-        <input type="range" min="0" max="20" value={paddingvalue} onChange={onChangePadding} />
+        <input type="range" min="0" max="50" value={paddingvalue} onChange={onChangePadding} />
+      </div>
+      <div>
+        <input type="button" value={state.fortytwo ? "set Grid" : "set 42"} onClick={set42} />
+        <input type="button" value="set Default" onClick={setDefault} />
       </div>
     </div>
   );
