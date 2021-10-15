@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import OptionContext from "../context/OptionContext";
+import InnerItem from "./InnerItem";
 
 const GridContainer = styled.div`
   grid-template-rows: repeat((${(props) => props.rows}), 1fr);
@@ -13,11 +14,8 @@ const GridContainer = styled.div`
   background-color: ${(props) => props.backgroundcolor};
   display: grid;
   margin-top: 15px;
-  grid-gap: ${(props) => props.gap}px;
+  /*  grid-gap: ${(props) => props.gap}px; */
   padding: ${(props) => props.containerpadding}px;
-  /* border: ${(props) =>
-    props.backgroundcolor !== "#ffffff" ? "0px" : props.containerpadding === 0 ? "0px" : "1px"}
-    solid gray; */
   @media (min-width: 619px) {
     width: calc(589px - 2 * ${(props) => props.containerpadding}px);
     height: calc(
@@ -27,14 +25,8 @@ const GridContainer = styled.div`
   }
 `;
 
-const GridItem = styled.div`
-  background-color: ${(props) => (props.bg === "#ffffff" ? "lightgray" : "white")};
-`;
-
 const CreateGrid = ({ dnd }) => {
-  const { state } = useContext(OptionContext);
-  const { rows, cols, gap, backgroundcolor, containerpadding } = state;
-  const { handleDragOver, handleDragLeave, handleDrop, handleDragEnter } = dnd;
+  const { rows, cols, gap, backgroundcolor, containerpadding } = useContext(OptionContext);
 
   return (
     <GridContainer
@@ -47,27 +39,18 @@ const CreateGrid = ({ dnd }) => {
     >
       {[...Array(rows)].map((row, i) => (
         <div
+          key={i + "row"}
           className="row"
           style={{
             gridTemplateColumns: `repeat(${cols}, 1fr)`,
             display: `grid`,
-            gridGap: `${gap}px`,
+            /* gridGap: `${gap}px`, */
           }}
         >
           {[...Array(cols)].map((n, index) => {
-            {
-              return (
-                <GridItem className="grid-item" bg={backgroundcolor}>
-                  <div
-                    class="inner"
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                    onDragEnter={handleDragEnter}
-                    onDragLeave={handleDragLeave}
-                  ></div>
-                </GridItem>
-              );
-            }
+            return (
+              <InnerItem gap={gap} dnd={dnd} backgroundcolor={backgroundcolor} index={index} />
+            );
           })}
         </div>
       ))}

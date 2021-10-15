@@ -56,8 +56,8 @@ const GetAlbums = ({ handleDragStart }) => {
         <button type="submit">검색</button>
       </form>
       <div className="searchResult">
-        {arts.map((art) => (
-          <div className="art" key={art.name}>
+        {arts.map((art, i) => (
+          <div className="art" key={art.name + i}>
             <div
               draggable
               className="inner"

@@ -2,19 +2,19 @@ import React, { useContext, useState, useEffect } from "react";
 import OptionContext from "../context/OptionContext";
 
 const Option = () => {
-  const { actions, state } = useContext(OptionContext);
+  const context = useContext(OptionContext);
   const colors = ["#BBB1D6", "green", "#1e3269", "#ffffff", "black"];
-  const [pickcolor, setPickColor] = useState(state.backgroundcolor);
-  const [rowvalue, setRowValue] = useState(state.rows);
-  const [colvalue, setColValue] = useState(state.cols);
-  const [gapvalue, setGapValue] = useState(state.gap);
-  const [paddingvalue, setPaddingValue] = useState(state.containerpadding);
+  const [pickcolor, setPickColor] = useState(context.backgroundcolor);
+  const [rowvalue, setRowValue] = useState(context.rows);
+  const [colvalue, setColValue] = useState(context.cols);
+  const [gapvalue, setGapValue] = useState(context.gap);
+  const [paddingvalue, setPaddingValue] = useState(context.containerpadding);
 
   const onPickColor = (e) => {
     setPickColor(e.target.value);
   };
   useEffect(() => {
-    actions.setBackgroundColor(pickcolor);
+    context.setBackgroundColor(pickcolor);
   }, [pickcolor]);
 
   const onChangeRow = (e) => {
@@ -22,7 +22,7 @@ const Option = () => {
   };
   useEffect(() => {
     if (parseInt(rowvalue) >= 0) {
-      actions.setRows(parseInt(rowvalue));
+      context.setRows(parseInt(rowvalue));
     }
   }, [rowvalue]);
 
@@ -31,7 +31,7 @@ const Option = () => {
   };
   useEffect(() => {
     if (parseInt(colvalue) >= 0) {
-      actions.setCols(parseInt(colvalue));
+      context.setCols(parseInt(colvalue));
     }
   }, [colvalue]);
 
@@ -39,26 +39,27 @@ const Option = () => {
     setGapValue(e.target.value);
   };
   useEffect(() => {
-    actions.setGap(parseInt(gapvalue));
+    context.setGap(parseInt(gapvalue));
   }, [gapvalue]);
 
   const onChangePadding = (e) => {
     setPaddingValue(e.target.value);
   };
   useEffect(() => {
-    actions.setContainerPadding(parseInt(paddingvalue));
+    context.setContainerPadding(parseInt(paddingvalue));
   }, [paddingvalue]);
 
   const set42 = () => {
-    actions.setFortytwo((prev) => !prev);
+    console.log(context.fortytwo);
+    context.setFortytwo((prev) => !prev);
   };
 
   const setDefault = () => {
-    actions.setBackgroundColor("#000000");
+    context.setBackgroundColor("#000000");
     setPickColor("#000000");
-    actions.setGap(3);
-    setGapValue(3);
-    actions.setContainerPadding(25);
+    context.setGap(2);
+    setGapValue(2);
+    context.setContainerPadding(25);
     setPaddingValue(25);
   };
 
@@ -69,7 +70,7 @@ const Option = () => {
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         {colors.map((color) => (
           <div
-            class="pallete"
+            className="pallete"
             key={color}
             style={{
               background: color,
@@ -79,7 +80,7 @@ const Option = () => {
               borderRadius: "50%",
               margin: "0px 5px",
             }}
-            onClick={() => actions.setBackgroundColor(color)}
+            onClick={() => context.setBackgroundColor(color)}
           />
         ))}
         <input
@@ -91,31 +92,40 @@ const Option = () => {
       </div>
       <div style={{ margin: "10px" }}>
         <input
+          disabled={context.fortytwo}
           type="number"
           min="0"
           max="10"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          value={rowvalue}
-          onChange={onChangeRow}
-        />
-        <span> x </span>
-        <input
-          type="number"
-          min="0"
-          max="10"
-          inputmode="numeric"
+          inputMode="numeric"
           pattern="[0-9]*"
           value={colvalue}
           onChange={onChangeCol}
         />
+        <span> x </span>
+        <input
+          disabled={context.fortytwo}
+          type="number"
+          min="0"
+          max="10"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={rowvalue}
+          onChange={onChangeRow}
+        />
       </div>
       <div>
-        <input type="range" min="0" max="10" value={gapvalue} onChange={onChangeGap} />
-        <input type="range" min="0" max="50" value={paddingvalue} onChange={onChangePadding} />
+        <input type="range" min="0" max="10" step="0.1" value={gapvalue} onChange={onChangeGap} />
+        <input
+          type="range"
+          min="0"
+          max="50"
+          step="0.1"
+          value={paddingvalue}
+          onChange={onChangePadding}
+        />
       </div>
       <div>
-        <input type="button" value={state.fortytwo ? "set Grid" : "set 42"} onClick={set42} />
+        <input type="button" value={context.fortytwo ? "set Grid" : "set 42"} onClick={set42} />
         <input type="button" value="set Default" onClick={setDefault} />
       </div>
     </div>

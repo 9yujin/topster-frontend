@@ -1,17 +1,24 @@
 import "./App.css";
 import GetAlbums from "./components/GetAlbums";
-import Option from "./components/Option";
+import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
+import * as dnd from "./components/Dnd";
 import Create42 from "./components/Create42";
 import CreateGrid from "./components/CreateGrid";
-import React, { useState, useContext, useRef, useCallback } from "react";
-import * as dnd from "./components/Dnd";
-import { OptionProvider } from "./context/OptionContext";
 import OptionContext from "./context/OptionContext";
+import Option from "./components/Option";
 import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
 function App() {
-  const { actions, state } = useContext(OptionContext);
+  const context = useContext(OptionContext);
+
+  const [rows, setRows] = useState(5);
+  const [cols, setCols] = useState(5);
+  const [gap, setGap] = useState(2);
+  const [containerpadding, setContainerPadding] = useState(25);
+  const [fortytwo, setFortytwo] = useState(false);
+  const [backgroundcolor, setBackgroundColor] = useState("#000000");
+
   const [optiontoggle, setOptionToggle] = useState(true);
   const canvas = useRef(null);
 
@@ -32,7 +39,7 @@ function App() {
   }, [canvas]);
 
   return (
-    <>
+    <div>
       <header id="header">
         <div className="container">
           <div className="inner-container">
@@ -43,12 +50,28 @@ function App() {
       </header>
 
       <main id="main">
-        <OptionProvider>
-          <div class="grid-wrapper" ref={canvas}>
-            {state.fortytwo === true ? <Create42 dnd={dnd} /> : <CreateGrid dnd={dnd} />}
+        <OptionContext.Provider
+          value={{
+            rows,
+            setRows,
+            cols,
+            setCols,
+            gap,
+            setGap,
+            containerpadding,
+            setContainerPadding,
+            fortytwo,
+            setFortytwo,
+            backgroundcolor,
+            setBackgroundColor,
+          }}
+        >
+          <div className="grid-wrapper" ref={canvas}>
+            {fortytwo === true ? <Create42 dnd={dnd} /> : <CreateGrid dnd={dnd} />}
           </div>
-          <div class="container">
-            <div class="inner-container">
+
+          <div className="container">
+            <div className="inner-container">
               <button
                 style={{ margin: "15px", textAlign: "center" }}
                 onClick={() => {
@@ -62,9 +85,9 @@ function App() {
               {optiontoggle ? <Option /> : <GetAlbums handleDragStart={dnd.handleDragStart} />}
             </div>
           </div>
-        </OptionProvider>
+        </OptionContext.Provider>
       </main>
-    </>
+    </div>
   );
 }
 
