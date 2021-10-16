@@ -3,10 +3,12 @@ import React, { createContext, useState } from "react";
 const OptionContext = createContext({
   rows: 5,
   cols: 5,
-  gap: 3.0,
-  backgroundcolor: "black",
+  gap: parseFloat(3.0),
+  backgroundcolor: "#000000",
   containerpadding: 25,
   fortytwo: false,
+  clicked1: null,
+  clicked2: null,
 
   setRows: () => {},
   setCols: () => {},
@@ -14,6 +16,8 @@ const OptionContext = createContext({
   setBackgroundColor: () => {},
   setContainerPadding: () => {},
   setFortytwo: () => {},
+  setClicked1: () => {},
+  setClicked2: () => {},
 });
 
 // const OptionProvider = ({ value, children }) => {

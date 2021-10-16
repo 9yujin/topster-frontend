@@ -1,94 +1,42 @@
 import "./App.css";
-import GetAlbums from "./components/GetAlbums";
-import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
-import * as dnd from "./components/Dnd";
-import Create42 from "./components/Create42";
-import CreateGrid from "./components/CreateGrid";
-import OptionContext from "./context/OptionContext";
-import Option from "./components/Option";
-import * as htmlToImage from "html-to-image";
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
+import React from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import CreateTopster from "./components/maketopster/CreateTopster";
+import styled from "styled-components";
+import { MenuOutline } from "react-ionicons";
+import MainPage from "./components/lookaround/MainPage";
 
-function App() {
-  const context = useContext(OptionContext);
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 
-  const [rows, setRows] = useState(5);
-  const [cols, setCols] = useState(5);
-  const [gap, setGap] = useState(2);
-  const [containerpadding, setContainerPadding] = useState(25);
-  const [fortytwo, setFortytwo] = useState(false);
-  const [backgroundcolor, setBackgroundColor] = useState("#000000");
+  &:hover {
+    color: gray;
+  }
+`;
 
-  const [optiontoggle, setOptionToggle] = useState(true);
-  const canvas = useRef(null);
-
-  const onSave = useCallback(() => {
-    if (canvas.current === null) {
-      return;
-    }
-    toPng(canvas.current, { cacheBust: true })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "my-topster.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [canvas]);
-
+const App = () => {
   return (
     <div>
       <header id="header">
         <div className="container">
           <div className="inner-container">
-            <h1 className="header-title">Topster</h1>
-            <input className="header-menu" type="button" value="save image" onClick={onSave} />
+            <StyledLink to="/">
+              <h1 className="header-title">Topster</h1>
+            </StyledLink>
+            <StyledLink to="/lookaround">
+              <MenuOutline color={"#00000"} title="menu" height="22px" width="22px" />
+            </StyledLink>
           </div>
         </div>
       </header>
 
-      <main id="main">
-        <OptionContext.Provider
-          value={{
-            rows,
-            setRows,
-            cols,
-            setCols,
-            gap,
-            setGap,
-            containerpadding,
-            setContainerPadding,
-            fortytwo,
-            setFortytwo,
-            backgroundcolor,
-            setBackgroundColor,
-          }}
-        >
-          <div className="grid-wrapper" ref={canvas}>
-            {fortytwo === true ? <Create42 dnd={dnd} /> : <CreateGrid dnd={dnd} />}
-          </div>
-
-          <div className="container">
-            <div className="inner-container">
-              <button
-                style={{ margin: "15px", textAlign: "center" }}
-                onClick={() => {
-                  setOptionToggle((prev) => !prev);
-                }}
-              >
-                {optiontoggle
-                  ? "Select options & Move on to the next step"
-                  : "Reset topster & Back to options"}
-              </button>
-              {optiontoggle ? <Option /> : <GetAlbums handleDragStart={dnd.handleDragStart} />}
-            </div>
-          </div>
-        </OptionContext.Provider>
-      </main>
+      <Switch>
+        <Route path="/" exact component={CreateTopster} />
+        <Route path="/lookaround" component={MainPage} />
+      </Switch>
     </div>
   );
-}
+};
 
 export default App;

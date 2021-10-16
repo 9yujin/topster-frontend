@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import OptionContext from "../context/OptionContext";
+import OptionContext from "../../context/OptionContext";
 import InnerItem from "./InnerItem";
 
 const GridContainer = styled.div`
@@ -10,10 +10,8 @@ const GridContainer = styled.div`
     (100vw - 30px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
       (${(props) => props.rows})
   );
-  margin: 0 auto;
   background-color: ${(props) => props.backgroundcolor};
   display: grid;
-  margin-top: 15px;
   /*  grid-gap: ${(props) => props.gap}px; */
   padding: ${(props) => props.containerpadding}px;
   @media (min-width: 619px) {
@@ -39,8 +37,7 @@ const CreateGrid = ({ dnd }) => {
     >
       {[...Array(rows)].map((row, i) => (
         <div
-          key={i + "row"}
-          className="row"
+          className={i + "th row"}
           style={{
             gridTemplateColumns: `repeat(${cols}, 1fr)`,
             display: `grid`,
@@ -49,7 +46,13 @@ const CreateGrid = ({ dnd }) => {
         >
           {[...Array(cols)].map((n, index) => {
             return (
-              <InnerItem gap={gap} dnd={dnd} backgroundcolor={backgroundcolor} index={index} />
+              <InnerItem
+                i={i}
+                gap={gap}
+                dnd={dnd}
+                backgroundcolor={backgroundcolor}
+                index={index}
+              />
             );
           })}
         </div>

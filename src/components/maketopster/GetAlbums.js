@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import axios from "axios";
+import OptionContext from "../../context/OptionContext";
 
 const GetAlbums = ({ handleDragStart }) => {
+  const { clicked1, clicked2, setClicked1, setClicked2 } = useContext(OptionContext);
   const [value, setValue] = useState("");
   const [arts, setArts] = useState([]);
 
@@ -16,19 +18,23 @@ const GetAlbums = ({ handleDragStart }) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://9yujin.shop/albums?search=${value}`,
+        /* url: `http://9yujin.shop/api/albums?search=${value}`, */
+        url: `http://localhost:5000/api/albums?search=${value}`,
       });
       const results = response.data.res.albums;
       results.map((result) => {
         const albumImage = result.image;
         const albumTitle = result.title;
         const albumArtist = result.artist;
+        const albumID = result.id;
         if (albumImage) {
           setArts((prev) => [
             ...prev,
             {
               image: albumImage,
               name: `${albumArtist} - ${albumTitle}`,
+              spID: albumID,
+              title: albumTitle,
             },
           ]);
         }
@@ -38,9 +44,7 @@ const GetAlbums = ({ handleDragStart }) => {
     }
   };
 
-  useEffect(() => {
-    //console.log("앨범아트", arts);
-  }, [arts]);
+  let clickedNode = null;
 
   const onSubmit = (e) => {
     setArts([]);
@@ -57,13 +61,25 @@ const GetAlbums = ({ handleDragStart }) => {
       </form>
       <div className="searchResult">
         {arts.map((art, i) => (
-          <div className="art" key={art.name + i}>
+          <div
+            className="art"
+            key={art.name}
+            /* onClick={(e) => {
+              if (clickedNode != null) {
+                clickedNode.classList.remove("clicked");
+              }
+              clickedNode = e.target;
+              if (e.target === clickedNode) {
+                clickedNode.classList.remove("clicked");
+              }
+            }} */
+          >
             <div
               draggable
               className="inner"
-              title={art.name}
+              id={art.name}
               onDragStart={(e) => {
-                handleDragStart(e, art.name);
+                handleDragStart(e, { art });
               }}
               style={{
                 backgroundImage: `url(${art.image})`,

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import OptionContext from "../context/OptionContext";
+import OptionContext from "../../context/OptionContext";
 
-const Option = () => {
+const Option = ({ onSave }) => {
   const context = useContext(OptionContext);
   const colors = ["#BBB1D6", "green", "#1e3269", "#ffffff", "black"];
   const [pickcolor, setPickColor] = useState(context.backgroundcolor);
@@ -39,7 +39,7 @@ const Option = () => {
     setGapValue(e.target.value);
   };
   useEffect(() => {
-    context.setGap(parseInt(gapvalue));
+    context.setGap(gapvalue);
   }, [gapvalue]);
 
   const onChangePadding = (e) => {
@@ -114,7 +114,7 @@ const Option = () => {
         />
       </div>
       <div>
-        <input type="range" min="0" max="10" step="0.1" value={gapvalue} onChange={onChangeGap} />
+        <input type="range" min="0" max="5" step="0.1" value={gapvalue} onChange={onChangeGap} />
         <input
           type="range"
           min="0"
@@ -125,9 +125,10 @@ const Option = () => {
         />
       </div>
       <div>
-        <input type="button" value={context.fortytwo ? "set Grid" : "set 42"} onClick={set42} />
-        <input type="button" value="set Default" onClick={setDefault} />
+        <input type="button" value={context.fortytwo ? "set Grid" : "Top 42"} onClick={set42} />
+        <input type="button" value="설정 초기화" onClick={setDefault} />
       </div>
+      <input className="header-menu" type="button" value="이미지 다운로드" onClick={onSave} />
     </div>
   );
 };

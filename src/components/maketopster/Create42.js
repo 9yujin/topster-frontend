@@ -1,16 +1,14 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import OptionContext from "../context/OptionContext";
+import OptionContext from "../../context/OptionContext";
 import InnerItem from "./InnerItem";
 
 const FortytwoContainer = styled.div`
   grid-template-rows: 6fr 6fr 5fr 5fr 3fr 3fr;
   width: calc(100vw - 30px - (2 * ${(props) => props.containerpadding}px));
   height: calc((100vw - 30px - (2 * ${(props) => props.containerpadding}px)) * 14 / 15);
-  margin: 0 auto;
   background-color: ${(props) => props.backgroundcolor};
   display: grid;
-  margin-top: 15px;
   padding: ${(props) => props.containerpadding}px;
   @media (min-width: 619px) {
     width: calc(589px - 2 * ${(props) => props.containerpadding}px);
