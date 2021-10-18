@@ -10,7 +10,13 @@ const InnerItem = ({ i, gap, dnd, backgroundcolor, index }) => {
   const { handleDragOver, handleDragLeave, handleDrop, handleDragEnter } = dnd;
 
   return (
-    <Item key={i + "-" + index} id={i + "-" + index} className="inner-item" gap={gap}>
+    <Item
+      key={i + "-" + index}
+      id={i + "-" + index}
+      className="inner-item"
+      gap={gap}
+      backgroundcolor={backgroundcolor}
+    >
       <div
         className="inner"
         backgroundcolor={backgroundcolor}

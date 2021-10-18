@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import OptionContext from "../../context/OptionContext";
 
-const Option = ({ onSave }) => {
+const Option = ({ onSave, onUpload }) => {
   const context = useContext(OptionContext);
   const colors = ["#BBB1D6", "green", "#1e3269", "#ffffff", "black"];
   const [pickcolor, setPickColor] = useState(context.backgroundcolor);
@@ -125,10 +125,17 @@ const Option = ({ onSave }) => {
         />
       </div>
       <div>
-        <input type="button" value={context.fortytwo ? "set Grid" : "Top 42"} onClick={set42} />
+        <input
+          type="button"
+          value={context.fortytwo ? "그리드 보기" : "Top42 보기"}
+          onClick={set42}
+        />
         <input type="button" value="설정 초기화" onClick={setDefault} />
       </div>
-      <input className="header-menu" type="button" value="이미지 다운로드" onClick={onSave} />
+      <div>
+        <input type="button" value="PNG 저장" onClick={onSave} />
+        <input type="button" value="탑스터 업로드" onClick={onUpload} />
+      </div>
     </div>
   );
 };

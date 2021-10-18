@@ -1,4 +1,5 @@
 @import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+@import "https://bootstrap/dist/css/bootstrap.min.css";
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 @font-face {
   font-family: AmericanTypewriterBold;
@@ -34,7 +35,7 @@ body {
 }
 #header .header-title {
   font-family: AmericanTypewriterBold;
-  font-size: 20px;
+  font-size: 24px;
 }
 
 /*탑스터 영역*/
@@ -132,4 +133,104 @@ body {
 
 button {
   height: 30px;
+}
+
+/* 로그인 폼 */
+
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.form-wrapper form input,
+.form-wrapper form button {
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+form {
+  display: block;
+  position: relative;
+}
+
+form .form-inner {
+  position: relative;
+  display: block;
+  background-color: #fff;
+  z-index: 2;
+}
+
+form .form-inner h2 {
+  color: #888;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+form .form-inner .form-group {
+  display: block;
+  width: 270px;
+  margin-bottom: 15px;
+}
+
+.form-inner .form-group label {
+  display: block;
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 5px;
+  transition: 0.4s;
+}
+
+.form-inner .form-group:focus-within label {
+  color: #000;
+}
+
+form .form-inner .form-group input {
+  display: block;
+  width: calc(100% - 15px);
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  transition: 0.4s;
+}
+
+form .form-inner .form-group input:focus {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+form .form-inner input[type="submit"] {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-size: 200%;
+  background: #666;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+form .form-inner input[type="submit"]:hover {
+  background: #888;
+}
+
+form .error {
+  color: #fe4880;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+form .joinToggle {
+  padding: 10px;
+  font-size: 13px;
+  margin-left: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+form .joinToggle:hover {
+  color: black;
 }

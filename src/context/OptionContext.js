@@ -6,7 +6,7 @@ const OptionContext = createContext({
   gap: parseFloat(3.0),
   backgroundcolor: "#000000",
   containerpadding: 25,
-  fortytwo: false,
+  fortytwo: true,
   clicked1: null,
   clicked2: null,
 

@@ -7,13 +7,14 @@ import OptionContext from "../../context/OptionContext";
 import Option from "./Option";
 import * as htmlToImage from "html-to-image";
 import { toPng } from "html-to-image";
+import axios from "axios";
 
 const CreateTopster = () => {
   const [rows, setRows] = useState(5);
   const [cols, setCols] = useState(5);
   const [gap, setGap] = useState(2);
   const [containerpadding, setContainerPadding] = useState(25);
-  const [fortytwo, setFortytwo] = useState(false);
+  const [fortytwo, setFortytwo] = useState(true);
   const [backgroundcolor, setBackgroundColor] = useState("#000000");
   const [clicked1, setClicked1] = useState(null);
   const [clicked2, setClicked2] = useState(null);
@@ -22,12 +23,15 @@ const CreateTopster = () => {
   const canvas = useRef(null);
 
   const onSave = useCallback(() => {
-    console.log(canvas.current.firstChild);
+    console.log(canvas.current.firstChild.style.width);
     if (canvas.current === null) {
       return;
     }
-    toPng(canvas.current.firstChild, { cacheBust: true })
+    toPng(canvas.current.firstChild, {
+      cacheBust: true,
+    })
       .then((dataUrl) => {
+        console.log(dataUrl);
         const link = document.createElement("a");
         link.download = "my-topster.png";
         link.href = dataUrl;
@@ -37,6 +41,24 @@ const CreateTopster = () => {
         console.log(err);
       });
   }, [canvas]);
+
+  const onUpload = async () => {
+    if (canvas.current === null) {
+      return;
+    }
+    const dataUrl = await toPng(canvas.current.firstChild, {
+      cacheBust: true,
+    });
+    console.log(dataUrl);
+    const uploadData = { topsterimage: dataUrl };
+    const response = await axios({
+      method: "POST",
+      /* url: `http://9yujin.shop/api/albums?search=${value}`, */
+      url: `http://localhost:5000/api/upload`,
+      data: uploadData,
+    });
+    console.log(response);
+  };
 
   return (
     <main id="main">
@@ -77,7 +99,7 @@ const CreateTopster = () => {
                 : "Reset topster & Back to options"}
             </button>
             {optiontoggle ? (
-              <Option onSave={onSave} />
+              <Option onSave={onSave} onUpload={onUpload} />
             ) : (
               <GetAlbums handleDragStart={dnd.handleDragStart} />
             )}
