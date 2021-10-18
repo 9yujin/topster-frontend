@@ -16,7 +16,7 @@ const LoginForm = ({ Login, Join, error, setError }) => {
 
   const onJoin = () => {
     setIsjoin((prev) => !prev);
-    setError("");
+    setError("&nbsp");
   };
   return (
     <>
@@ -57,7 +57,7 @@ const LoginForm = ({ Login, Join, error, setError }) => {
                     value={details.password}
                   />
                 </div>
-                {error != "" ? <div className="error">{error}</div> : ""}
+                {error != "&nbsp" ? <div className="error">{error}</div> : ""}
                 <input type="submit" value={isjoin ? "회원가입" : "로그인"} />
                 <span onClick={onJoin} className="joinToggle">
                   <a>{isjoin ? "로그인" : "회원가입"}</a>
