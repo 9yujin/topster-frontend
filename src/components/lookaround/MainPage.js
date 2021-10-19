@@ -28,7 +28,7 @@ const MainPage = () => {
       const msg = response.data.msg;
       if (msg == "allowed") {
         context.setUser({
-          name: details.name,
+          name: response.data.name,
           id: details.id,
         });
       } else if (msg == "tryagain") {
