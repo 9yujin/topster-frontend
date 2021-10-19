@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 
 const LoginForm = ({ Login, Join, error, setError }) => {
-  const [details, setDetails] = useState({ name: "", email: "", password: "" });
+  const [details, setDetails] = useState({ name: "", id: "", password: "" });
   const [isjoin, setIsjoin] = useState(false);
+
+  const onJoin = () => {
+    setIsjoin((prev) => !prev);
+    setError("&nbsp");
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -10,14 +15,10 @@ const LoginForm = ({ Login, Join, error, setError }) => {
     if (!isjoin) {
       Login(details);
     } else {
-      Join(details);
+      Join(details, onJoin);
     }
   };
 
-  const onJoin = () => {
-    setIsjoin((prev) => !prev);
-    setError("&nbsp");
-  };
   return (
     <>
       <main>
@@ -38,13 +39,13 @@ const LoginForm = ({ Login, Join, error, setError }) => {
                   </div>
                 )}
                 <div className="form-group">
-                  <label htmlFor="email">Email:</label>
+                  <label htmlFor="id">ID:</label>
                   <input
                     type="text"
-                    name="email"
-                    id="email"
-                    onChange={(e) => setDetails({ ...details, email: e.target.value })}
-                    value={details.email}
+                    name="id"
+                    id="id"
+                    onChange={(e) => setDetails({ ...details, id: e.target.value })}
+                    value={details.id}
                   />
                 </div>
                 <div className="form-group">

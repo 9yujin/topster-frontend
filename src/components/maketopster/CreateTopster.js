@@ -8,6 +8,7 @@ import Option from "./Option";
 import * as htmlToImage from "html-to-image";
 import { toPng } from "html-to-image";
 import axios from "axios";
+import LoginContext from "../../context/LoginContext";
 
 const CreateTopster = () => {
   const [rows, setRows] = useState(5);
@@ -21,6 +22,8 @@ const CreateTopster = () => {
 
   const [optiontoggle, setOptionToggle] = useState(true);
   const canvas = useRef(null);
+
+  const context = useContext(LoginContext);
 
   const onSave = useCallback(() => {
     console.log(canvas.current.firstChild.style.width);
@@ -49,12 +52,12 @@ const CreateTopster = () => {
     const dataUrl = await toPng(canvas.current.firstChild, {
       cacheBust: true,
     });
-    console.log(dataUrl);
+    console.log(context.user.id);
     const uploadData = { topsterimage: dataUrl };
     const response = await axios({
       method: "POST",
       /* url: `http://9yujin.shop/api/albums?search=${value}`, */
-      url: `http://localhost:5000/api/upload`,
+      url: `http://localhost:5000/api/upload?user=${context.user.id}`,
       data: uploadData,
     });
     console.log(response);
