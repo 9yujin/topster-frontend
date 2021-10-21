@@ -3,10 +3,12 @@ import Gallery from "./Gallery";
 import LoginForm from "./LoginForm";
 import axios from "axios";
 import LoginContext from "../../context/LoginContext";
+import Cookies from "universal-cookie/es6";
 
 const MainPage = () => {
   const context = useContext(LoginContext);
   const [error, setError] = useState("");
+  const cookies = new Cookies();
 
   const Login = async (details) => {
     const joinForm = {
@@ -26,10 +28,17 @@ const MainPage = () => {
         },
       });
       const msg = response.data.msg;
+
       if (msg == "allowed") {
         context.setUser({
           name: response.data.name,
           id: details.id,
+        });
+        const access_token = response.data.access_token;
+        //cookie_string = `jwt=${access_token}; max-age=${60 * 60 * 24 * 30}; Path=/; httpOnly;`;
+        cookies.set("jwt", access_token, {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 30, //httponly 옵션을 없애니까 된다,,
         });
       } else if (msg == "tryagain") {
         setError("ID와 비밀번호를 정확히 입력해 주세요. ");
@@ -66,8 +75,20 @@ const MainPage = () => {
     }
   };
 
-  const Logout = () => {
+  const Logout = async () => {
     context.setUser({ name: "", id: "" });
+
+    const jwt_token = cookies.get("jwt");
+    const response = await axios({
+      method: "get",
+      url: `http://localhost:5000/api/logout`,
+      headers: {
+        Authorization: jwt_token,
+      },
+    });
+    if (response.data.msg == "succeeded") {
+      cookies.remove("jwt");
+    }
   };
   return (
     <>

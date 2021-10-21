@@ -53,14 +53,21 @@ const CreateTopster = () => {
       cacheBust: true,
     });
     console.log(context.user.id);
-    const uploadData = { topsterimage: dataUrl };
-    const response = await axios({
-      method: "POST",
-      /* url: `http://9yujin.shop/api/albums?search=${value}`, */
-      url: `http://localhost:5000/api/upload?user=${context.user.id}`,
-      data: uploadData,
-    });
-    console.log(response);
+    if (context.user.id) {
+      //로그인 되어있을때
+      const uploadData = { topsterimage: dataUrl };
+      const response = await axios({
+        method: "POST",
+        /* url: `http://9yujin.shop/api/albums?search=${value}`, */
+        url: `http://localhost:5000/api/upload?user=${context.user.id}`,
+        data: uploadData,
+      });
+      if (response.data.msg == "upload succeeded") {
+        window.location.href = "/lookaround";
+      }
+    } else {
+      return; //로그인 모달창 띄워보기
+    }
   };
 
   return (
