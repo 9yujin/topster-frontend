@@ -58,8 +58,8 @@ const CreateTopster = () => {
       const uploadData = { topsterimage: dataUrl };
       const response = await axios({
         method: "POST",
-        /* url: `http://9yujin.shop/api/albums?search=${value}`, */
-        url: `http://localhost:5000/api/upload?user=${context.user.id}`,
+        url: `http://9yujin.shop/api/api/upload?user=${context.user.id}`,
+        //url: `http://localhost:5000/api/upload?user=${context.user.id}`,
         data: uploadData,
       });
       if (response.data.msg == "upload succeeded") {

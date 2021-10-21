@@ -11,7 +11,8 @@ const Gallery = ({ Logout }) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://localhost:5000/api/feed?search=all`,
+        url: `http://9yujin.shop/api/feed?search=all`,
+        //url: `http://localhost:5000/api/feed?search=all`,
       });
       const results = response.data.feedData;
       results.map((result) => {

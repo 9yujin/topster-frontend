@@ -26,7 +26,8 @@ const App = () => {
     const jwt_token = cookies.get("jwt");
     const response = await axios({
       method: "get",
-      url: `http://localhost:5000/api/auth`,
+      //url: `http://localhost:5000/api/auth`,
+      url: `http://9yujin.shop/api/auth`,
       headers: {
         Authorization: jwt_token,
       },

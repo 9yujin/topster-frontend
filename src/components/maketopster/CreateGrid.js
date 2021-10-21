@@ -12,7 +12,6 @@ const GridContainer = styled.div`
   );
   background-color: ${(props) => props.backgroundcolor};
   display: grid;
-  /*  grid-gap: ${(props) => props.gap}px; */
   padding: ${(props) => props.containerpadding}px;
   @media (min-width: 619px) {
     width: calc(589px - 2 * ${(props) => props.containerpadding}px);
