@@ -58,12 +58,12 @@ const CreateTopster = () => {
       const uploadData = { topsterimage: dataUrl };
       const response = await axios({
         method: "POST",
-        url: `http://9yujin.shop/api/api/upload?user=${context.user.id}`,
-        //url: `http://localhost:5000/api/upload?user=${context.user.id}`,
+        //url: `http://9yujin.shop:5000/api/upload?user=${context.user.id}`,
+        url: `http://localhost:5000/api/upload?user=${context.user.id}`,
         data: uploadData,
       });
       if (response.data.msg == "upload succeeded") {
-        window.location.href = "/lookaround";
+        window.location.href = "/";
       }
     } else {
       return; //로그인 모달창 띄워보기

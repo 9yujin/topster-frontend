@@ -18,7 +18,7 @@ const GetAlbums = ({ handleDragStart }) => {
     try {
       const response = await axios({
         method: "GET",
-        /* url: `http://9yujin.shop/api/albums?search=${value}`, */
+        //url: `http://9yujin.shop:5000/api/albums?search=${value}`,
         url: `http://localhost:5000/api/albums?search=${value}`,
       });
       const results = response.data.res.albums;
@@ -61,19 +61,7 @@ const GetAlbums = ({ handleDragStart }) => {
       </form>
       <div className="searchResult">
         {arts.map((art, i) => (
-          <div
-            className="art"
-            key={art.name}
-            /* onClick={(e) => {
-              if (clickedNode != null) {
-                clickedNode.classList.remove("clicked");
-              }
-              clickedNode = e.target;
-              if (e.target === clickedNode) {
-                clickedNode.classList.remove("clicked");
-              }
-            }} */
-          >
+          <div className="art" key={art.name}>
             <div
               draggable
               className="inner"

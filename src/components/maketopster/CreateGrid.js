@@ -5,19 +5,23 @@ import InnerItem from "./InnerItem";
 
 const GridContainer = styled.div`
   grid-template-rows: repeat((${(props) => props.rows}), 1fr);
-  width: calc(100vw - 30px - (2 * ${(props) => props.containerpadding}px));
+
+  width: calc((100vw - 30px - (2 * ${(props) => props.containerpadding}px)));
   height: calc(
     (100vw - 30px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
       (${(props) => props.rows})
   );
+
   background-color: ${(props) => props.backgroundcolor};
   display: grid;
   padding: ${(props) => props.containerpadding}px;
   @media (min-width: 619px) {
-    width: calc(589px - 2 * ${(props) => props.containerpadding}px);
+    width: calc((589px - 2 * ${(props) => props.containerpadding}px));
     height: calc(
-      (589px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
-        (${(props) => props.rows})
+      (
+        (589px - 2 * ${(props) => props.containerpadding}px) / (${(props) => props.cols}) *
+          (${(props) => props.rows})
+      )
     );
   }
 `;
