@@ -36,14 +36,15 @@ const MyPost = ({ error, setError }) => {
         url: `http://localhost:5000/api/feed?search=${userid}&user=${userid}`,
       });
       const results = response.data.feedData;
-      results.map((result) => {
+      results.map((result, index) => {
         const topsterImage = result.topsterImage;
         const userid = result.userid;
         const like = result.like;
         const postid = result._id;
         const date = result.date;
-        const likebool = result.likebool;
         const dateee = timeForToday(date);
+        const likebool = result.likebool;
+        const indexid = index;
         if (topsterImage) {
           setFeeds((prev) => [
             ...prev,
@@ -54,6 +55,7 @@ const MyPost = ({ error, setError }) => {
               date: dateee,
               postid: postid,
               liketoggle: likebool,
+              indexid: indexid,
             },
           ]);
         }

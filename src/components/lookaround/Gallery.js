@@ -26,7 +26,7 @@ const timeForToday = (value) => {
 const Gallery = ({ error, setError, menu }) => {
   const context = useContext(LoginContext);
   const [feeds, setFeeds] = useState([]);
-
+  const [likestate, setLikeState] = useState();
   const getPost = async () => {
     try {
       const userid = context.user.id;
@@ -36,7 +36,7 @@ const Gallery = ({ error, setError, menu }) => {
         url: `http://localhost:5000/api/feed?user=${userid}&search=all`,
       });
       const results = response.data.feedData;
-      results.map((result) => {
+      results.map((result, index) => {
         const topsterImage = result.topsterImage;
         const userid = result.userid;
         const like = result.like;
@@ -44,7 +44,7 @@ const Gallery = ({ error, setError, menu }) => {
         const date = result.date;
         const dateee = timeForToday(date);
         const likebool = result.likebool;
-        console.log(likebool);
+        const indexid = index;
         if (topsterImage) {
           setFeeds((prev) => [
             ...prev,
@@ -55,6 +55,7 @@ const Gallery = ({ error, setError, menu }) => {
               date: dateee,
               postid: postid,
               liketoggle: likebool,
+              indexid: indexid,
             },
           ]);
         }
@@ -72,7 +73,11 @@ const Gallery = ({ error, setError, menu }) => {
     }
   }, [context.user.id]);
 
-  return <Feed feeds={feeds} />;
+  useEffect(() => {
+    setLikeState();
+  }, [feeds]);
+
+  return <Feed feeds={feeds} setFeeds={setFeeds} />;
 };
 
 export default Gallery;
