@@ -278,9 +278,12 @@ form .joinToggle:hover {
 }
 
 .feeditem:first-child {
-  margin-top: 48px;
+  margin-top: 58px;
 }
 
+.feedButton:hover {
+  color: #8e8e8e;
+}
 /*모달*/
 .modal {
   border: 1px solid black;

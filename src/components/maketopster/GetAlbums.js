@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import OptionContext from "../../context/OptionContext";
 
 const GetAlbums = ({ handleDragStart }) => {
-  const { clicked1, clicked2, setClicked1, setClicked2 } = useContext(OptionContext);
   const [value, setValue] = useState("");
   const [arts, setArts] = useState([]);
 
@@ -43,8 +42,6 @@ const GetAlbums = ({ handleDragStart }) => {
       console.log(error);
     }
   };
-
-  let clickedNode = null;
 
   const onSubmit = (e) => {
     setArts([]);

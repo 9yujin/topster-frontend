@@ -10,7 +10,7 @@ const timeForToday = (value) => {
 
   const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60) + 540;
 
-  //if (betweenTime < 1) return "방금전";
+  if (betweenTime < 1) return "방금 전";
   if (betweenTime < 60) {
     return `${betweenTime}분 전`;
   }
@@ -27,13 +27,13 @@ const MyPost = ({ error, setError }) => {
   const context = useContext(LoginContext);
   const [feeds, setFeeds] = useState([]);
 
-  useEffect(async () => {
-    //setFeeds([]);
+  const getPost = async () => {
     try {
+      const userid = context.user.id;
       const response = await axios({
         method: "GET",
         //url: `http://9yujin.shop:5000/api/feed?search=${context.user.id}`,
-        url: `http://localhost:5000/api/feed?search=${context.user.id}`,
+        url: `http://localhost:5000/api/feed?search=${userid}&user=${userid}`,
       });
       const results = response.data.feedData;
       results.map((result) => {
@@ -42,6 +42,7 @@ const MyPost = ({ error, setError }) => {
         const like = result.like;
         const postid = result._id;
         const date = result.date;
+        const likebool = result.likebool;
         const dateee = timeForToday(date);
         if (topsterImage) {
           setFeeds((prev) => [
@@ -52,22 +53,36 @@ const MyPost = ({ error, setError }) => {
               like: like,
               date: dateee,
               postid: postid,
+              liketoggle: likebool,
             },
           ]);
         }
       });
-      console.log(results);
+
+      console.log("렌더링");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    getPost();
   }, []);
+
+  useEffect(() => {
+    if (context.delsucceeded) {
+      setFeeds(feeds.filter((feed) => feed.postid != context.delPostID));
+      context.setDelPostID("");
+      context.setDelSucceeded(false);
+    }
+  }, [context.delsucceeded]);
+
   return (
     <>
       {context.user.id != "" ? (
         feeds.length == 0 ? (
           <>
             <div style={{ marginTop: "48px" }}>첫 탑스터를 만들어보세요</div>
-
             <a href="/pallete">
               <button>GO</button>
             </a>

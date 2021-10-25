@@ -14,6 +14,8 @@ const cookies = new Cookies();
 const App = () => {
   const [user, setUser] = useState({ name: "", id: "" });
   const [path, setPath] = useState();
+  const [delPostID, setDelPostID] = useState();
+  const [delsucceeded, setDelSucceeded] = useState(false);
   const menuA = useRef(null);
   const menuB = useRef(null);
   const overlay = useRef();
@@ -35,15 +37,17 @@ const App = () => {
 
   const toggleicon = () => {
     const a = window.location.pathname;
-    if (a == "/") {
+    if (a === "/") {
       setPath(true);
-    } else if (a == "/pallete") {
+    } else if (a === "/pallete") {
       setPath(false);
     }
   };
 
-  const openModal = () => {
+  const openModal = (e) => {
     this_modal.current.classList.remove("hidden");
+    const data = e.currentTarget.getAttribute("postid");
+    setDelPostID(data);
   };
   const closeModal = () => {
     this_modal.current.classList.add("hidden");
@@ -53,48 +57,65 @@ const App = () => {
     toggleicon();
   }, []);
 
-  useEffect(async () => {
-    const jwt_token = cookies.get("jwt");
-    if (jwt_token) {
+  useEffect(() => {
+    const func = async () => {
+      const jwt_token = cookies.get("jwt");
+      if (jwt_token) {
+        const response = await axios({
+          method: "get",
+          url: `http://localhost:5000/api/auth`,
+          //url: `http://9yujin.shop:5000/api/auth`,
+          headers: {
+            Authorization: jwt_token,
+          },
+        });
+        const result = response.data;
+        if (result) {
+          setUser({
+            name: result.name,
+            id: result.id,
+          });
+        }
+      }
+    };
+    func();
+  }, []);
+
+  const Logout = async () => {
+    const ok = window.confirm("정말로 로그아웃 하시겠습니까?");
+    if (ok) {
+      setUser({ name: "", id: "" });
+
+      const jwt_token = cookies.get("jwt");
       const response = await axios({
         method: "get",
-        url: `http://localhost:5000/api/auth`,
-        //url: `http://9yujin.shop:5000/api/auth`,
+        url: `http://localhost:5000/api/logout`,
+        //url: `http://9yujin.shop:5000/api/logout`,
         headers: {
           Authorization: jwt_token,
         },
       });
-      const result = response.data;
-      if (result) {
-        setUser({
-          name: result.name,
-          id: result.id,
-        });
+      if (response.data.msg === "succeeded") {
+        cookies.remove("jwt");
       }
-    }
-  }, []);
-
-  const Logout = async () => {
-    setUser({ name: "", id: "" });
-
-    const jwt_token = cookies.get("jwt");
-    const response = await axios({
-      method: "get",
-      url: `http://localhost:5000/api/logout`,
-      //url: `http://9yujin.shop:5000/api/logout`,
-      headers: {
-        Authorization: jwt_token,
-      },
-    });
-    if (response.data.msg == "succeeded") {
-      cookies.remove("jwt");
     }
   };
 
   return (
     <div>
       <LoginContext.Provider
-        value={{ user, setUser, menuToggle, setMenuToggle, openModal, closeModal }}
+        value={{
+          user,
+          setUser,
+          menuToggle,
+          setMenuToggle,
+          openModal,
+          closeModal,
+          delPostID,
+          setDelPostID,
+          delsucceeded,
+          setDelSucceeded,
+        }}
       >
         <header id="header">
           <div className="container">
@@ -132,11 +153,11 @@ const App = () => {
                     <Create height="26px" width="26px" />
                   )}
                 </Link>
-                {user.id != "" ? (
+                {user.id !== "" ? (
                   <LogOutOutline
                     height="27px"
                     width="27px"
-                    style={{ marginLeft: "10px" }}
+                    style={{ marginLeft: "15px" }}
                     onClick={Logout}
                   />
                 ) : (
@@ -144,7 +165,7 @@ const App = () => {
                     height="27px"
                     width="27px"
                     color={"#cccccc"}
-                    style={{ marginLeft: "10px" }}
+                    style={{ marginLeft: "15px" }}
                     onClick={Logout}
                   />
                 )}
@@ -177,7 +198,11 @@ const App = () => {
         <div class="modal hidden" ref={this_modal}>
           <div class="modal_overlay" ref={overlay} onClick={closeModal}></div>
           <div class="modal_content">
-            <ModalFeed closeModal={closeModal} />
+            <ModalFeed
+              closeModal={closeModal}
+              delPostID={delPostID}
+              setDelSucceeded={setDelSucceeded}
+            />
           </div>
         </div>
       </LoginContext.Provider>
