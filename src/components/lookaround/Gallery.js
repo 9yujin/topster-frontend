@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef, useCallback } from "react";
 import axios from "axios";
 import Feed from "./Feed";
 import LoginContext from "../../context/LoginContext";
@@ -26,14 +26,36 @@ const timeForToday = (value) => {
 const Gallery = ({ error, setError, menu }) => {
   const context = useContext(LoginContext);
   const [feeds, setFeeds] = useState([]);
-  const [likestate, setLikeState] = useState();
+  const [offset, setOffset] = useState(0);
+  const [isloading, setIsLoading] = useState(true);
+
+  /*  const options = {
+    root: null, //기본 null, 관찰대상의 부모요소를 지정
+    rootMargin: "0px", // 관찰하는 뷰포트의 마진 지정
+    threshold: 1.0, // 관찰요소와 얼만큼 겹쳤을 때 콜백을 수행하도록 지정하는 요소
+  };
+  const observer = new IntersectionObserver((entires, observer) => {
+    entires.forEach((entry) => {
+      console.log(entry);
+    });
+  }, options);
+
+  observer.observe(observeRef.current); */
+
   const getPost = async () => {
+    let userid;
+
     try {
-      const userid = context.user.id;
+      if (context.nonlogin) {
+        userid = "non-login-user";
+      } else {
+        userid = context.user.id;
+      }
+
       const response = await axios({
         method: "GET",
-        //url: `http://9yujin.shop:5000/api/feed?search=${context.user.id}`,
-        url: `http://localhost:5000/api/feed?user=${userid}&search=all`,
+        url: `http://9yujin.shop:5000/api/feed?user=${userid}&search=all&offset=${offset}&limit=5`,
+        //url: `http://localhost:5000/api/feed?user=${userid}&search=all&offset=${offset}&limit=5`,
       });
       const results = response.data.feedData;
       results.map((result, index) => {
@@ -60,7 +82,13 @@ const Gallery = ({ error, setError, menu }) => {
           ]);
         }
       });
-
+      //더 불러오기
+      if (results.length === 5) {
+        setOffset((prev) => prev + 5);
+      } else {
+        setOffset(false);
+      }
+      setIsLoading(false);
       console.log("렌더링");
     } catch (error) {
       console.log(error);
@@ -74,10 +102,40 @@ const Gallery = ({ error, setError, menu }) => {
   }, [context.user.id]);
 
   useEffect(() => {
-    setLikeState();
-  }, [feeds]);
+    if (context.nonlogin === true) getPost();
+  }, [context.nonlogin]);
 
-  return <Feed feeds={feeds} setFeeds={setFeeds} />;
+  return (
+    <>
+      {feeds.length == "" ? (
+        isloading ? (
+          <div>"로딩화면"</div>
+        ) : (
+          <>
+            <div style={{ marginTop: "48px" }}>첫 탑스터를 만들어보세요</div>
+            <a href="/pallete">
+              <button>GO</button>
+            </a>
+          </>
+        )
+      ) : (
+        <>
+          <Feed feeds={feeds} setFeeds={setFeeds} nonlogin={context.nonlogin} />
+          {offset ? (
+            <div onClick={getPost} className="more">
+              더 불러오기
+            </div>
+          ) : (
+            <div className="feedend">마지막 피드입니다.</div>
+          )}
+        </>
+      )}
+
+      {/* <div ref={observeRef} style={{ height: "100px" }}>
+        옵저버
+      </div> */}
+    </>
+  );
 };
 
-export default Gallery;
+export default React.memo(Gallery);

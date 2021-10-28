@@ -24,8 +24,8 @@ const LoginForm = ({ error, setError }) => {
     } else {
       const response = await axios({
         method: "POST",
-        url: `http://localhost:5000/api/login`,
-        //url: `http://9yujin.shop:5000/api/login`,
+        //url: `http://localhost:5000/api/login`,
+        url: `http://9yujin.shop:5000/api/login`,
         data: JSON.stringify(joinForm),
         headers: {
           "Content-Type": `application/json`,
@@ -43,6 +43,7 @@ const LoginForm = ({ error, setError }) => {
           path: "/",
           maxAge: 60 * 60 * 24 * 30,
         });
+        context.setNonLogin(false);
       } else if (msg == "tryagain") {
         setError("ID와 비밀번호를 정확히 입력해 주세요. ");
       }
@@ -64,8 +65,8 @@ const LoginForm = ({ error, setError }) => {
     }
     const response = await axios({
       method: "POST",
-      url: `http://localhost:5000/api/join`,
-      //url: `http://9yujin.shop:5000/api/join`,
+      //url: `http://localhost:5000/api/join`,
+      url: `http://9yujin.shop:5000/api/join`,
       data: JSON.stringify(joinForm),
       headers: {
         "Content-Type": `application/json`,

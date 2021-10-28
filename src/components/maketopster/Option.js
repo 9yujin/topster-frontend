@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import OptionContext from "../../context/OptionContext";
-
+import ReactTooltip from "react-tooltip";
 const Option = ({ onSave, onUpload }) => {
   const context = useContext(OptionContext);
-  const colors = ["#BBB1D6", "green", "#1e3269", "#ffffff", "black"];
+  const colors = ["#BBB1D6", "#ef798a", "#718f94", "#ffffff", "black"];
   const [pickcolor, setPickColor] = useState(context.backgroundcolor);
   const [rowvalue, setRowValue] = useState(context.rows);
   const [colvalue, setColValue] = useState(context.cols);
@@ -85,57 +85,89 @@ const Option = ({ onSave, onUpload }) => {
         ))}
         <input
           type="color"
+          className="pallete-picker"
           value={pickcolor}
           onChange={onPickColor}
           style={{ margin: "0px 5px" }}
         />
       </div>
-      <div style={{ margin: "10px" }}>
-        <input
-          disabled={context.fortytwo}
-          type="number"
-          min="0"
-          max="10"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={colvalue}
-          onChange={onChangeCol}
-        />
-        <span> x </span>
-        <input
-          disabled={context.fortytwo}
-          type="number"
-          min="0"
-          max="10"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={rowvalue}
-          onChange={onChangeRow}
-        />
+
+      <div style={{ margin: "10px", display: "flex" }}>
+        <div className="size-button">
+          <span style={{ fontSize: "13px" }}> 가로: </span>
+          <input
+            disabled={context.fortytwo}
+            type="number"
+            min="0"
+            max="10"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={colvalue}
+            onChange={onChangeCol}
+            style={{ width: "30px", height: "20px", border: "none", fontSize: "13px" }}
+          />
+        </div>
+        <div className="size-button">
+          <span style={{ fontSize: "13px" }}> 세로: </span>
+          <input
+            disabled={context.fortytwo}
+            type="number"
+            min="0"
+            max="10"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={rowvalue}
+            onChange={onChangeRow}
+            style={{ width: "30px", height: "20px", border: "none", fontSize: "13px" }}
+          />
+        </div>
       </div>
-      <div>
-        <input type="range" min="0" max="5" step="0.1" value={gapvalue} onChange={onChangeGap} />
-        <input
-          type="range"
-          min="0"
-          max="50"
-          step="0.1"
-          value={paddingvalue}
-          onChange={onChangePadding}
-        />
+
+      <div style={{ display: "flex" }}>
+        <div className="size-button">
+          <span style={{ fontSize: "13px", width: "40px" }}> 간격:</span>
+          <input
+            type="range"
+            min="0"
+            max="5"
+            step="0.1"
+            value={gapvalue}
+            onChange={onChangeGap}
+            style={{ width: "86px" }}
+          />
+        </div>
+        <div className="size-button">
+          <span style={{ fontSize: "13px", width: "40px" }}> 테두리:</span>
+          <input
+            type="range"
+            min="0"
+            max="50"
+            step="0.1"
+            value={paddingvalue}
+            onChange={onChangePadding}
+            style={{ width: "86px" }}
+          />
+        </div>
       </div>
-      <div>
-        <input
-          type="button"
-          value={context.fortytwo ? "그리드 보기" : "Top42 보기"}
-          onClick={set42}
-        />
-        <input type="button" value="설정 초기화" onClick={setDefault} />
+
+      <div style={{ margin: "5px" }}>
+        <span data-tip data-for="handleGrid">
+          <input
+            type="button"
+            value={context.fortytwo ? "그리드" : "Top42"}
+            onClick={set42}
+            className="option-button"
+          />
+        </span>
+        <ReactTooltip id="handleGrid" type="light" effect="solid">
+          <span>탑스터에 넣은 앨범아트가 초기화됩니다</span>
+        </ReactTooltip>
+        <input type="button" className="option-button" value="설정 초기화" onClick={setDefault} />
+        <input type="button" className="option-button" value="이미지 저장" onClick={onSave} />
+        <input type="button" className="option-button" value="업로드" onClick={onUpload} />
       </div>
-      <div>
-        <input type="button" value="PNG 저장" onClick={onSave} />
-        <input type="button" value="탑스터 업로드" onClick={onUpload} />
-      </div>
+
+      <div></div>
     </div>
   );
 };

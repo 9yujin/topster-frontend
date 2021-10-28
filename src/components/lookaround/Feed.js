@@ -3,7 +3,7 @@ import { EllipsisHorizontal } from "react-ionicons";
 import LoginContext from "../../context/LoginContext";
 import axios from "axios";
 
-const Feed = ({ feeds, setFeeds, mypost }) => {
+const Feed = ({ feeds, setFeeds, mypost, nonlogin }) => {
   const context = useContext(LoginContext);
   const [feedsref, setFeedsRef] = useState();
 
@@ -12,31 +12,36 @@ const Feed = ({ feeds, setFeeds, mypost }) => {
   }, [feeds]);
 
   const onLike = async (e) => {
-    const node = e.currentTarget;
-    const postid = node.getAttribute("postid");
-    const stateindex = node.getAttribute("feedindex");
-    const liketoggle = feedsref[stateindex].liketoggle;
-    const response = await axios({
-      method: "post",
-      //url: `http://9yujin.shop:5000/api/like`,
-      url: `http://localhost:5000/api/like`,
-      data: { postid: postid, like: liketoggle, userid: context.user.id },
-    });
-    if (response.data.msg === "succeeded") {
-      let newArr = [...feedsref];
-      console.log(newArr[stateindex].liketoggle);
+    if (nonlogin === true || context.user.id == "") {
+      window.alert("로그인 후에 이용해 주시기 바랍니다");
+      return;
+    } else {
+      const node = e.currentTarget;
+      const postid = node.getAttribute("postid");
+      const stateindex = node.getAttribute("feedindex");
+      const liketoggle = feedsref[stateindex].liketoggle;
+      const response = await axios({
+        method: "post",
+        url: `http://9yujin.shop:5000/api/like`,
+        //url: `http://localhost:5000/api/like`,
+        data: { postid: postid, like: liketoggle, userid: context.user.id },
+      });
+      if (response.data.msg === "succeeded") {
+        let newArr = [...feedsref];
+        console.log(newArr[stateindex].liketoggle);
 
-      if (liketoggle === 0) {
-        newArr[stateindex].liketoggle = 1;
-        newArr[stateindex].like += 1;
-        setFeedsRef(newArr);
-        //setFeedsRef([...feedsref, (feedsref[index].like += 1)]);
-      } else if (liketoggle === 1) {
-        newArr[stateindex].liketoggle = 0;
-        newArr[stateindex].like -= 1;
-        setFeedsRef(newArr);
+        if (liketoggle === 0) {
+          newArr[stateindex].liketoggle = 1;
+          newArr[stateindex].like += 1;
+          setFeedsRef(newArr);
+          //setFeedsRef([...feedsref, (feedsref[index].like += 1)]);
+        } else if (liketoggle === 1) {
+          newArr[stateindex].liketoggle = 0;
+          newArr[stateindex].like -= 1;
+          setFeedsRef(newArr);
+        }
+        //setFeedsRef([...feedsref, (feedsref[index].liketoggle += 1)]);
       }
-      //setFeedsRef([...feedsref, (feedsref[index].liketoggle += 1)]);
     }
   };
 
@@ -124,4 +129,4 @@ const Feed = ({ feeds, setFeeds, mypost }) => {
   );
 };
 
-export default Feed;
+export default React.memo(Feed);

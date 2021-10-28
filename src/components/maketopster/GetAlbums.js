@@ -17,8 +17,8 @@ const GetAlbums = ({ handleDragStart }) => {
     try {
       const response = await axios({
         method: "GET",
-        //url: `http://9yujin.shop:5000/api/albums?search=${value}`,
-        url: `http://localhost:5000/api/albums?search=${value}`,
+        url: `http://9yujin.shop:5000/api/albums?search=${value}`,
+        //url: `http://localhost:5000/api/albums?search=${value}`,
       });
       const results = response.data.res.albums;
       results.map((result) => {

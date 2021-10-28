@@ -1,6 +1,5 @@
 @import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
 @import "https://bootstrap/dist/css/bootstrap.min.css";
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 @font-face {
   font-family: AmericanTypewriterBold;
   src: url(./Assets/fonts/AmericanTypewriterBold.ttf);
@@ -67,9 +66,8 @@ ul #active {
 /*탑스터 영역*/
 
 .grid-wrapper {
-  height: calc(100vh - 340px);
+  height: calc(100vh - 350px);
   overflow-y: auto;
-  margin-top: 10px;
 }
 .grid-wrapper::-webkit-scrollbar {
   display: none;
@@ -86,7 +84,7 @@ ul #active {
 }
 .container {
   width: 100%;
-  min-width: 300px;
+  min-width: 370px;
   max-width: 619px;
   margin: 0 auto;
 }
@@ -128,8 +126,8 @@ ul #active {
 .search {
   display: flex;
   justify-content: center;
-  padding: 5px 15px;
   height: 30px;
+  margin-bottom: 5px;
 }
 .searchResult {
   display: grid;
@@ -157,9 +155,44 @@ ul #active {
 .pallete:hover {
   transform: scale(1.1);
 }
-
-button {
+.size-button {
+  border: 1px solid lightgray;
+  padding: 3px 10px;
+  border-radius: 15px;
+  margin: 0px 3px;
+  display: flex;
+  align-items: center;
+}
+.flex-bar {
+  display: flex;
+  height: 230px;
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.option-button {
+  font-size: 13px;
+  margin: 3px;
   height: 30px;
+  width: 73px;
+  border: 1px solid lightgray;
+  background-color: white;
+  border-radius: 15px;
+  color: black;
+}
+.option-button:first-child {
+  color: #fe4880;
+}
+.optiontoggle-button {
+  font-size: 13px;
+  font-weight: 500;
+  width: 180px;
+  padding: 10px;
+  border: none;
+  color: rgb(91, 143, 255);
+  border-radius: 15px;
+  background-color: #f0f0f0;
 }
 
 /* 로그인 폼 */
@@ -284,6 +317,30 @@ form .joinToggle:hover {
 .feedButton:hover {
   color: #8e8e8e;
 }
+
+.more {
+  background-color: #ccc;
+  text-align: center;
+  padding: 15px;
+  color: white;
+  margin: 0 50px;
+  margin-bottom: 40px;
+  border-radius: 23px;
+}
+.more:hover {
+  background-color: #888;
+}
+.feedend {
+  background-color: white;
+  text-align: center;
+  padding: 15px;
+  color: #aaa;
+  margin: 0 50px;
+  margin-bottom: 40px;
+  border-radius: 23px;
+  box-shadow: inset 0px 0px 10px rgb(0, 0, 0, 8%);
+}
+
 /*모달*/
 .modal {
   border: 1px solid black;

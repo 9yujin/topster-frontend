@@ -14,6 +14,7 @@ const cookies = new Cookies();
 const App = () => {
   const [user, setUser] = useState({ name: "", id: "" });
   const [path, setPath] = useState();
+  const [nonlogin, setNonLogin] = useState(false);
   const [delPostID, setDelPostID] = useState();
   const [delsucceeded, setDelSucceeded] = useState(false);
   const menuA = useRef(null);
@@ -22,6 +23,7 @@ const App = () => {
   const this_modal = useRef();
 
   const [menuToggle, setMenuToggle] = useState(true);
+  const [feedroading, setFeedRoading] = useState(true);
 
   const onMenuA = () => {
     setMenuToggle(true);
@@ -63,8 +65,8 @@ const App = () => {
       if (jwt_token) {
         const response = await axios({
           method: "get",
-          url: `http://localhost:5000/api/auth`,
-          //url: `http://9yujin.shop:5000/api/auth`,
+          //url: `http://localhost:5000/api/auth`,
+          url: `http://9yujin.shop:5000/api/auth`,
           headers: {
             Authorization: jwt_token,
           },
@@ -76,6 +78,8 @@ const App = () => {
             id: result.id,
           });
         }
+      } else {
+        setNonLogin(true);
       }
     };
     func();
@@ -97,6 +101,7 @@ const App = () => {
       });
       if (response.data.msg === "succeeded") {
         cookies.remove("jwt");
+        setNonLogin(true);
       }
     }
   };
@@ -115,6 +120,10 @@ const App = () => {
           setDelPostID,
           delsucceeded,
           setDelSucceeded,
+          feedroading,
+          setFeedRoading,
+          nonlogin,
+          setNonLogin,
         }}
       >
         <header id="header">

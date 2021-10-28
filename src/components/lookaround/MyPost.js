@@ -26,14 +26,14 @@ const timeForToday = (value) => {
 const MyPost = ({ error, setError }) => {
   const context = useContext(LoginContext);
   const [feeds, setFeeds] = useState([]);
-
+  const [isloading, setIsLoading] = useState(true);
   const getPost = async () => {
     try {
       const userid = context.user.id;
       const response = await axios({
         method: "GET",
-        //url: `http://9yujin.shop:5000/api/feed?search=${context.user.id}`,
-        url: `http://localhost:5000/api/feed?search=${userid}&user=${userid}`,
+        url: `http://9yujin.shop:5000/api/feed?search=${userid}&user=${userid}`,
+        //url: `http://localhost:5000/api/feed?search=${userid}&user=${userid}`,
       });
       const results = response.data.feedData;
       results.map((result, index) => {
@@ -60,7 +60,7 @@ const MyPost = ({ error, setError }) => {
           ]);
         }
       });
-
+      setIsLoading(false);
       console.log("렌더링");
     } catch (error) {
       console.log(error);
@@ -69,7 +69,7 @@ const MyPost = ({ error, setError }) => {
 
   useEffect(() => {
     getPost();
-  }, []);
+  }, [context.user.id]);
 
   useEffect(() => {
     if (context.delsucceeded) {
@@ -82,13 +82,17 @@ const MyPost = ({ error, setError }) => {
   return (
     <>
       {context.user.id != "" ? (
-        feeds.length == 0 ? (
-          <>
-            <div style={{ marginTop: "48px" }}>첫 탑스터를 만들어보세요</div>
-            <a href="/pallete">
-              <button>GO</button>
-            </a>
-          </>
+        feeds.length == "" ? (
+          isloading ? (
+            <div>"로딩화면"</div>
+          ) : (
+            <>
+              <div style={{ marginTop: "48px" }}>첫 탑스터를 만들어보세요</div>
+              <a href="/pallete">
+                <button>GO</button>
+              </a>
+            </>
+          )
         ) : (
           <Feed feeds={feeds} mypost="true" />
         )
@@ -99,4 +103,4 @@ const MyPost = ({ error, setError }) => {
   );
 };
 
-export default MyPost;
+export default React.memo(MyPost);
