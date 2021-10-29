@@ -93,8 +93,8 @@ const App = () => {
       const jwt_token = cookies.get("jwt");
       const response = await axios({
         method: "get",
-        url: `http://localhost:5000/api/logout`,
-        //url: `http://9yujin.shop:5000/api/logout`,
+        //url: `http://localhost:5000/api/logout`,
+        url: `http://9yujin.shop:5000/api/logout`,
         headers: {
           Authorization: jwt_token,
         },
@@ -175,7 +175,7 @@ const App = () => {
                     width="27px"
                     color={"#cccccc"}
                     style={{ marginLeft: "15px" }}
-                    onClick={Logout}
+                    //onClick={Logout}
                   />
                 )}
               </div>
