@@ -1,3 +1,6 @@
+# topster-frontend
+[React+Flask] spotify API를 이용한 탑스터 이미지 생성 + SNS 서비스
+
 웹개발을 공부하고 처음으로 진행했던 개인프로젝트. 
 탑스터 이미지를 생성하고 sns와 같이 업로드해 공유할 수 있습니다.
 
